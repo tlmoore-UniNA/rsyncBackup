@@ -6,6 +6,8 @@ Before cloning this project, ensure that the appropriate dependencies are instal
 
 `rsync version 3.2.7 protocol version 31`
 
+The cleanup script (`cleanup.py`) requires python (version `3.11.8`) and uses the `os`, `datetime`, and `pandas` (version `1.5.3`) modules.
+
 To utilize this setup simply clone this project into your target directory:
 
 ```
@@ -22,6 +24,9 @@ To configure the program, go into the bash script, `backup.sh`, and modify your 
 ```
 readonly BACKUP_DIR="/Backup" # <- change this line here
 ```
+
+If you setup a job to cleanup your backups (i.e. to keep only X number of daily backups, Y number of months, and X number of yearly), then be sure to change the directory in the python script as well.
+
 
 ### Setting up a persistant external HD mount
 
