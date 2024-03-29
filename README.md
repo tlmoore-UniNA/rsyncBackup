@@ -17,4 +17,48 @@ Here `<~/the/target/directory>` is the directory where you would like to downloa
 
 ## Configuration
 
-To configure the program, go into the bash script, `backup.sh`, and modify your target directory, i.e. `BACKUP_DIR`. In the script this is set to the location `"/Backup"`, however you may setup any location that you would like
+To configure the program, go into the bash script, `backup.sh`, and modify your target directory, i.e. `BACKUP_DIR`. In the script this is set to the location `"/Backup"`, however you may setup any location that you would like.
+
+```
+readonly BACKUP_DIR="/Backup" # <- change this line here
+```
+
+### Setting up a persistant external HD mount
+
+If you want to setup the backup to an external drive that is persistantly mounted to your device, you can easily do so.
+
+First, plugin your external storage (e.g. HD, SSD) into your device. Then, identify the device name with `lsblk`.
+
+```
+$ lsblk
+
+NAME        MAJ:MIN  RM  SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0 953.9G  0 disk
+├─nvme0n1p1 259:1    0   260M  0 part /boot
+├─nvme0n1p2 259:2    0     8G  0 part [SWAP]
+└─nvme0n1p3 259:3    0   528G  0 part /
+sda           8:0    0   1.8T  0 disk
+└─sda1        8:1    0   1.5T  0 part
+```
+
+In this example, we have identified `/dev/sda1` as the external drive partitionintended as our backup location. Find the `UUID` for that device using `blkid`.
+
+```
+blkid /dev/sda1
+```
+
+Create a directory for the persistent mount:
+```
+sudo mkdir /Backup
+```
+
+Mount the drive to that directory:
+```
+sudo mount /dev/sda1 /Backup
+```
+
+Finally, edit your file system table `fstab` to identify that drive. Into `/etc/fstab`, add a line such as:
+
+```
+UUID=28cb0bad-5936-4371-970d-affbc1864aea   /Backup ext4    users,rw,auto,nofail,exec
+```
