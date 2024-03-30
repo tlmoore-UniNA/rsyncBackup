@@ -67,3 +67,5 @@ Finally, edit your file system table `fstab` to identify that drive. Into `/etc/
 ```
 UUID=28cb0bad-5936-4371-970d-affbc1864aea   /Backup ext4    users,rw,auto,nofail,exec
 ```
+
+## Setup cron job to preiodically backup system
