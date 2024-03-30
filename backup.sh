@@ -4,8 +4,9 @@
 # Requires the 'rsync' utility
 # BACKUP =====================================================================
 # Set the source and target directories
-readonly SOURCE_DIR="${HOME}"
-readonly BACKUP_DIR="/Backup" # '/Backup' is a your intended backup location.
+#readonly SOURCE_DIR="${HOME}"
+readonly SOURCE_DIR="/home/tmoore/Videos/TheLonelyIsland"
+readonly BACKUP_DIR="/home/tmoore/test" # '/Backup' is a your intended backup location.
 # This directory is a persistent mount to an external hard disk (HD). See the  
 # README for more information on how to configure the external HD.
 
