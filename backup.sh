@@ -1,15 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # A script for backing up the /home directory via 'rsync'
 #
-# Requires the 'rsync' utility
+# Requires the 'rsync' and 'udisks' utilities
 # MOUNT ENCRYPTED DRIVE TO BACKUP LOCATION ===================================
 sudo cryptsetup open /dev/sda1 vaultBackup # open the vault
-sudo mount /dev/mapper/vaultBackup /Backup
+udisksctl mount -b /dev/mapper/vaultBackup
+# Device mounts to /run/media/tmoore/myvault
+
 # BACKUP =====================================================================
 # Set the source and target directories
 #readonly SOURCE_DIR="${HOME}"
 readonly SOURCE_DIR="${HOME}"
-readonly BACKUP_DIR="/Backup" # '/Backup' is a your intended backup location.
+readonly BACKUP_DIR="/run/media/tmoore/myvault" # This is a your intended backup location.
 # This directory is a persistent mount to an external hard disk (HD). See the  
 # README for more information on how to configure the external HD.
 
@@ -33,6 +35,10 @@ rsync -av --delete \
 # Remove the ${LATEST_LINK} and create a new link to the most recent backup
 rm -rf "${LATEST_LINK}"
 ln -s "${BACKUP_PATH}" "${LATEST_LINK}"
+# RUN THE PYTHON SCRIPT TO CLEANUP ===========================================
+#nix-shell
+#python3 ./cleanup.py
+#exit
 # UNMOUNT THE ENCRYPTED BACKUP DRIVE =========================================
-sudo umount /dev/mapper/vaultBackup
+udisksctl unmount -b /dev/mapper/vaultBackup
 sudo cryptsetup close vaultBackup

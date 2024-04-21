@@ -4,7 +4,7 @@ from datetime import datetime
 import pandas as pd
 
 # Define the directory to search
-BACKUP_DIR = "/Backup"
+BACKUP_DIR = "/run/media/tmoore/myvault"
 
 # Get sub-directories
 sub_dirs = [d for d in os.listdir(BACKUP_DIR) if 
